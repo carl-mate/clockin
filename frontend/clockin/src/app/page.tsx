@@ -7,6 +7,7 @@ import CheckinForm from "./components/CheckinForm";
 import CheckinList from "./components/CheckinList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthProvider";
+import Dashboard from "./components/Dashboard";
 
 export default function Home() {
   // Refactor later, temporary for testing
@@ -31,8 +32,9 @@ export default function Home() {
         <Button variant="contained" color="secondary" onClick={onClick}>
           Logout
         </Button>
+        <Dashboard />
         <CheckinForm />
-        <CheckinList />
+        {/* <CheckinList /> */}
       </Container>
     </ProtectedRoute>
   );
