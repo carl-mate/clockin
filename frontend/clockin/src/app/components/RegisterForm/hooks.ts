@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context';
+import { useAuth } from '@/app/context/AuthProvider';
 import { useForm } from 'react-hook-form';
 
 type RegisterFormInputs = {

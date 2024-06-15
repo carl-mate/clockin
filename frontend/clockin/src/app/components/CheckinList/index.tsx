@@ -2,7 +2,7 @@ import { Button, Container, List, ListItem, ListItemText } from '@mui/material';
 import { useHooks } from './hooks';
 
 export default function CheckinList() {
-  const { checkins } = useHooks();
+  const { checkins, handleDelete } = useHooks();
 
   return (
     <Container>
@@ -12,7 +12,13 @@ export default function CheckinList() {
             <ListItemText
               primary={`${checkin.hours} hrs #${checkin.tag} ${checkin.activity}`}
             />
-            <Button>Delete</Button>
+            <Button
+              onClick={() => handleDelete(checkin.id)}
+              variant='contained'
+              color='secondary'
+            >
+              Delete
+            </Button>
           </ListItem>
         ))}
       </List>

@@ -1,7 +1,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import AuthProvider from './context';
+import AuthProvider from './context/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

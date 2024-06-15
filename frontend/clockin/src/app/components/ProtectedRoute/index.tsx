@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useAuth } from '@/app/context';
+import { useAuth } from '@/app/context/AuthProvider';
 
 export default function ProtectedRoute({
   children,

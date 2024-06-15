@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import axiosInstance from "@/app/utils/axios";
+import fetchUser, { type User } from "@/app/utils/fetchUser";
 
 type CheckIn = {
   hours: number
@@ -9,8 +12,18 @@ type CheckIn = {
 }
 
 export function useHooks() {
+  const [user, setUser] = useState<User | null>(null);
   const [input, setInput] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const currentUser = await fetchUser();
+      setUser(currentUser);
+    }
+    getCurrentUser();
+  }, []);
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -23,13 +36,13 @@ export function useHooks() {
     }
 
     try {
-      // await axios.post('/api/checkins/', parsedData);
-      console.log(parsedData);
+      const token = localStorage.getItem('token');
+      await axiosInstance.post('checkins/', { ...parsedData, user: user?.pk }, { headers: { 'Content-Type': 'application/json', 'Authorization': `Token ${token}` } });
       setInput('');
       setError(null);
       alert('Check-in submitted successfully');
     } catch (error) {
-      console.error('Error submitting check-in:', error);
+      console.error('Error submitting check-in:', error.response.data);
       alert('Failed to submit check-in');
     }
   };
