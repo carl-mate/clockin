@@ -4,32 +4,19 @@ import { Box, Button, TextField, Container } from '@mui/material';
 import { useHooks } from './hooks';
 
 export default function CheckinForm() {
-  const { hours, tag, activity, setHours, setTag, setActivity, handleSubmit } =
-    useHooks();
+  const { input, setInput, error, handleSubmit } = useHooks();
 
   return (
     <Container>
       <Box component='form' onSubmit={handleSubmit}>
         <TextField
-          label='Hours'
-          value={hours}
-          onChange={(e) => setHours(e.target.value)}
+          label='Check-in'
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           fullWidth
-          margin='normal'
-        />
-        <TextField
-          label='Tag'
-          value={tag}
-          onChange={(e) => setTag(e.target.value)}
-          fullWidth
-          margin='normal'
-        />
-        <TextField
-          label='Activity'
-          value={activity}
-          onChange={(e) => setActivity(e.target.value)}
-          fullWidth
-          margin='normal'
+          error={!!error}
+          helperText={error}
+          placeholder='5.5 hrs #project-x fix login issue'
         />
         <Button type='submit' variant='contained' color='primary'>
           Check-in
