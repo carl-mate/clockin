@@ -1,33 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context/AuthContext';
-import { useForm } from 'react-hook-form';
-
-import { Container, Typography, Box, TextField, Button } from '@mui/material';
-
-type LoginFormInputs = {
-  username: string;
-  email: string;
-  password: string;
-};
+import { Typography, Box, TextField, Button } from '@mui/material';
+import useHooks from './hooks';
 
 export default function LoginForm() {
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
-  const { login } = useAuth();
-  const router = useRouter();
-
-  const onSubmit = async (data: LoginFormInputs) => {
-    try {
-      await login(data.username, data.email, data.password);
-      router.push('/');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
-
+  const { register, handleSubmit, onSubmit } = useHooks();
   return (
-    <Container>
+    <>
       <Typography variant='h4'>Login</Typography>
       <Box component='form' onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -53,6 +32,6 @@ export default function LoginForm() {
           Login
         </Button>
       </Box>
-    </Container>
+    </>
   );
 }
