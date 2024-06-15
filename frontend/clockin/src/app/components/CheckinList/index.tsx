@@ -1,5 +1,5 @@
-import { Button, Container, List, ListItem, ListItemText } from '@mui/material';
-import { useHooks } from './hooks';
+import { Button, Container, List, ListItem, ListItemText } from "@mui/material";
+import { useHooks } from "./hooks";
 
 export default function CheckinList() {
   const { checkins, handleDelete } = useHooks();
@@ -14,8 +14,8 @@ export default function CheckinList() {
             />
             <Button
               onClick={() => handleDelete(checkin.id)}
-              variant='contained'
-              color='secondary'
+              variant="contained"
+              color="secondary"
             >
               Delete
             </Button>

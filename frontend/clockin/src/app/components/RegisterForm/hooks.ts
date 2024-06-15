@@ -1,6 +1,6 @@
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context/AuthProvider';
-import { useForm } from 'react-hook-form';
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthProvider";
+import { useForm } from "react-hook-form";
 
 type RegisterFormInputs = {
   username: string;
@@ -17,11 +17,11 @@ export default function useHooks() {
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
       await signUp(data.username, data.email, data.password1, data.password2);
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error("Registration failed:", error);
     }
   };
 
-  return { register, handleSubmit, onSubmit }
+  return { register, handleSubmit, onSubmit };
 }
