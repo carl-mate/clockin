@@ -1,16 +1,28 @@
-'use client';
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import axiosInstance from "@/app/utils/axios";
+import fetchUser, { type User } from "@/app/utils/fetchUser";
 
 type CheckIn = {
-  hours: number
-  tag: string
-  activity: string
-}
+  hours: number;
+  tag: string;
+  activity: string;
+};
 
 export function useHooks() {
-  const [input, setInput] = useState('');
+  const [user, setUser] = useState<User | null>(null);
+  const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const currentUser = await fetchUser();
+      setUser(currentUser);
+    };
+    getCurrentUser();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -18,19 +30,28 @@ export function useHooks() {
     const parsedData = parseCheckInInput(input);
 
     if (!parsedData) {
-      setError('Invalid check-in format');
+      setError("Invalid check-in format");
       return;
     }
 
     try {
-      // await axios.post('/api/checkins/', parsedData);
-      console.log(parsedData);
-      setInput('');
+      const token = localStorage.getItem("token");
+      await axiosInstance.post(
+        "checkins/",
+        { ...parsedData, user: user?.pk },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+      setInput("");
       setError(null);
-      alert('Check-in submitted successfully');
+      alert("Check-in submitted successfully");
     } catch (error) {
-      console.error('Error submitting check-in:', error);
-      alert('Failed to submit check-in');
+      console.error("Error submitting check-in:", error.response.data);
+      alert("Failed to submit check-in");
     }
   };
 
@@ -49,6 +70,9 @@ export function useHooks() {
   };
 
   return {
-    input, setInput, error, handleSubmit
-  }
+    input,
+    setInput,
+    error,
+    handleSubmit,
+  };
 }
