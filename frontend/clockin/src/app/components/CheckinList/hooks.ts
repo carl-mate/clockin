@@ -7,7 +7,7 @@ export function useHooks() {
       activity: 'created be',
     },
     {
-      id: 1,
+      id: 2,
       hours: 1,
       tag: 'project',
       activity: 'created fe',
