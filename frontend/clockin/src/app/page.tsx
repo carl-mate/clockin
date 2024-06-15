@@ -34,7 +34,7 @@ export default function Home() {
         </Button>
         <Dashboard />
         <CheckinForm />
-        {/* <CheckinList /> */}
+        <CheckinList />
       </Container>
     </ProtectedRoute>
   );
