@@ -8,6 +8,7 @@ import {
   useEffect,
 } from "react";
 import axiosInstance from "../utils/axios";
+import { getToken } from "../utils/getToken";
 
 type AuthContextProps = {
   isAuthenticated: boolean;
@@ -30,8 +31,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check localStorage for token on component mount
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (getToken()) {
       setIsAuthenticated(true);
     }
     setLoading(false);

@@ -1,4 +1,5 @@
 import axiosInstance from "./axios";
+import { getToken } from "./getToken";
 
 export type User = {
   pk: number;
@@ -10,9 +11,8 @@ export type User = {
 
 export default async function fetchUser() {
   try {
-    const token = localStorage.getItem("token");
     const response = await axiosInstance.get("auth/user/", {
-      headers: { Authorization: `Token ${token}` },
+      headers: { Authorization: `Token ${getToken()}` },
     });
     return response.data as User;
   } catch (error) {

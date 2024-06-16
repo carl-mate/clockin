@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
+import { getToken } from "@/app/utils/getToken";
 
 export function useHooks() {
   const [checkins, setCheckins] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchCheckins = async () => {
-      const token = localStorage.getItem("token");
       const response = await axiosInstance.get("checkins/", {
-        headers: { Authorization: `Token ${token}` },
+        headers: { Authorization: `Token ${getToken()}` },
       });
       setCheckins(response.data);
     };
@@ -18,9 +18,8 @@ export function useHooks() {
   }, []);
 
   const handleDelete = async (id: number) => {
-    const token = localStorage.getItem("token");
     await axiosInstance.delete(`checkins/${id}/`, {
-      headers: { Authorization: `Token ${token}` },
+      headers: { Authorization: `Token ${getToken()}` },
     });
     setCheckins(checkins.filter((checkins) => checkins.id !== id));
   };
