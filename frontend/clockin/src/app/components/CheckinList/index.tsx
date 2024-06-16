@@ -1,5 +1,7 @@
+"use client";
+
 import { Button, Container, List, ListItem, ListItemText } from "@mui/material";
-import { useHooks } from "./hooks";
+import useHooks from "./hooks";
 
 export default function CheckinList() {
   const { checkins, handleDelete } = useHooks();

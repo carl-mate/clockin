@@ -1,7 +1,9 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
 
-export function useHooks() {
+export default function useHooks() {
   const [checkins, setCheckins] = useState<any[]>([]);
 
   useEffect(() => {

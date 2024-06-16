@@ -11,7 +11,7 @@ type CheckIn = {
   activity: string;
 };
 
-export function useHooks() {
+export default function useHooks() {
   const [user, setUser] = useState<User | null>(null);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);

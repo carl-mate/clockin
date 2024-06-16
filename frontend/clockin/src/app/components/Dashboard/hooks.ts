@@ -1,7 +1,9 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
 
-export default function useHooks() {
+export function useHooks() {
   const [chartData, setChartData] = useState({
     labels: [""],
     datasets: [

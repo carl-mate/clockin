@@ -1,5 +1,7 @@
+"use client";
+
 import { Container } from "@mui/material";
-import useHooks from "./hooks";
+import { useHooks } from "./hooks";
 
 import {
   Chart as ChartJS,
