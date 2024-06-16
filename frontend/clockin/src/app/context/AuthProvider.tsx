@@ -17,7 +17,7 @@ type AuthContextProps = {
     username: string,
     email: string,
     password1: string,
-    password2: string
+    password2: string,
   ) => Promise<void>;
   login: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -41,7 +41,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     username: string,
     email: string,
     password1: string,
-    password2: string
+    password2: string,
   ) => {
     const response = await axiosInstance.post("auth/registration/", {
       username,
