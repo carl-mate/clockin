@@ -36,7 +36,7 @@ export default function CheckinList() {
 
   return (
     <>
-      <DataGrid rows={rows} columns={columns} autoPageSize />
+      <DataGrid rows={rows} columns={columns} />
     </>
   );
 }
