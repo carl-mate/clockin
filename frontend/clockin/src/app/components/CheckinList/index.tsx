@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Container, List, ListItem, ListItemText } from "@mui/material";
 import { useHooks } from "./hooks";
 
