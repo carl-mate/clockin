@@ -4,6 +4,7 @@ import moment from "moment";
 
 import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
+import { getToken } from "@/app/utils/getToken";
 
 type CheckIn = {
   id: number;
@@ -56,9 +57,8 @@ export function useHooks() {
 
   useEffect(() => {
     const fetchCheckins = async () => {
-      const token = localStorage.getItem("token");
       const response = await axiosInstance.get("checkins/", {
-        headers: { Authorization: `Token ${token}` },
+        headers: { Authorization: `Token ${getToken()}` },
       });
       const data: CheckIn[] = response.data;
 

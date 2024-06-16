@@ -8,6 +8,7 @@ import {
   useEffect,
 } from "react";
 import axiosInstance from "../utils/axios";
+import { getToken } from "../utils/getToken";
 
 type AuthContextProps = {
   isAuthenticated: boolean;
@@ -16,7 +17,7 @@ type AuthContextProps = {
     username: string,
     email: string,
     password1: string,
-    password2: string,
+    password2: string
   ) => Promise<void>;
   login: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -30,8 +31,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check localStorage for token on component mount
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (getToken()) {
       setIsAuthenticated(true);
     }
     setLoading(false);
@@ -41,7 +41,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     username: string,
     email: string,
     password1: string,
-    password2: string,
+    password2: string
   ) => {
     const response = await axiosInstance.post("auth/registration/", {
       username,

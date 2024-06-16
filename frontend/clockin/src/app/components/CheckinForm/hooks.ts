@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import axiosInstance from "@/app/utils/axios";
 import fetchUser, { type User } from "@/app/utils/fetchUser";
+import { getToken } from "@/app/utils/getToken";
 
 type CheckIn = {
   hours: number;
@@ -35,14 +36,13 @@ export function useHooks() {
     }
 
     try {
-      const token = localStorage.getItem("token");
       await axiosInstance.post(
         "checkins/",
         { ...parsedData, user: user?.pk },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
+            Authorization: `Token ${getToken()}`,
           },
         },
       );
