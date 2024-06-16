@@ -1,13 +1,14 @@
 "use client";
 
-import { IconButton } from "@mui/material";
+import { Box, Button, TextField, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useHooks } from "./hooks";
 import moment from "moment";
 
 export default function CheckinList() {
-  const { checkins, handleDelete } = useHooks();
+  const { input, setInput, error, handleSubmit, checkins, handleDelete } =
+    useHooks();
 
   const columns = [
     { field: "created_at", headerName: "Created At", minWidth: 250 },
@@ -36,6 +37,27 @@ export default function CheckinList() {
 
   return (
     <>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        autoComplete="off"
+        my={4}
+      >
+        <TextField
+          label="Check-in"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          fullWidth
+          error={!!error}
+          helperText={error}
+          placeholder="5.5 hrs #project-x fix login issue"
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Check-in
+        </Button>
+      </Box>
       <DataGrid rows={rows} columns={columns} />
     </>
   );
