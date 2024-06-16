@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, TextField, Container } from "@mui/material";
-import useHooks from "./hooks";
+import { useHooks } from "./hooks";
 
 export default function CheckinForm() {
   const { input, setInput, error, handleSubmit } = useHooks();
