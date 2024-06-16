@@ -1,14 +1,17 @@
 "use client";
-
-import { Box, Button, TextField, Container } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useHooks } from "./hooks";
 
 export default function CheckinForm() {
   const { input, setInput, error, handleSubmit } = useHooks();
-
   return (
-    <Container>
-      <Box component="form" onSubmit={handleSubmit}>
+    <>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        autoComplete="off"
+      >
         <TextField
           label="Check-in"
           value={input}
@@ -17,11 +20,12 @@ export default function CheckinForm() {
           error={!!error}
           helperText={error}
           placeholder="5.5 hrs #project-x fix login issue"
+          margin="normal"
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" fullWidth>
           Check-in
         </Button>
       </Box>
-    </Container>
+    </>
   );
 }
