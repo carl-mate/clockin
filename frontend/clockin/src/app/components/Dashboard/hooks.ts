@@ -6,22 +6,21 @@ import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
 import { getToken } from "@/app/utils/getToken";
 
-type CheckIn = {
-  id: number;
-  user: number;
-  hours: number;
-  tag: string;
-  activity: string;
-  created_at: string;
+type DashboardData = {
+  total_time: number;
+  total_checkins: number;
+  time_allocation: number[];
+  top_time_investments: Array<{ tag: string; total_hours: string }>;
+  time_trends: Array<{ day: string; total_hours: string }>;
 };
 
 export function useHooks() {
   const [chartData, setChartData] = useState({
-    labels: [""],
+    labels: ["No Data"],
     datasets: [
       {
-        label: "",
-        data: [],
+        label: "No Data",
+        data: [0],
         backgroundColor: "",
         borderColor: "",
         borderWidth: 0,
@@ -29,23 +28,22 @@ export function useHooks() {
     ],
   });
   const [pieData, setPieData] = useState({
-    labels: [""],
+    labels: ["No Data"],
     datasets: [
       {
-        label: "",
-        data: [],
-        backgroundColor: "",
-        borderColor: "",
+        data: [0],
+        backgroundColor: [""],
+        borderColor: [""],
         borderWidth: 0,
       },
     ],
   });
   const [trendData, setTrendData] = useState({
-    labels: [""],
+    labels: ["No Data"],
     datasets: [
       {
-        label: "",
-        data: [],
+        label: "No Data",
+        data: [0],
         backgroundColor: "",
         borderColor: "",
         borderWidth: 0,
@@ -57,16 +55,26 @@ export function useHooks() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axiosInstance.get("checkins/dashboard_data/", {
-        headers: { Authorization: `Token ${getToken()}` },
-      });
-      const data = response.data;
+      const response = await axiosInstance.get<DashboardData>(
+        "checkins/dashboard_data/",
+        {
+          headers: { Authorization: `Token ${getToken()}` },
+        },
+      );
+      const { top_time_investments, time_trends, total_time, total_checkins } =
+        response.data;
 
       // Process data for charts
-      const topTags = data.top_time_investments.map((item) => item.tag);
-      const topHours = data.top_time_investments.map((item) =>
+      const topTags = top_time_investments.map((item) => item.tag);
+      const topHours = top_time_investments.map((item) =>
         parseFloat(item.total_hours),
       );
+
+      if (total_checkins === 0) {
+        setTotalTime(0);
+        setTotalCheckIns(0);
+        return;
+      }
 
       const pieChartData = {
         labels: topTags,
@@ -105,8 +113,10 @@ export function useHooks() {
         ],
       };
 
-      const trendLabels = data.time_trends.map((item) => item.day);
-      const trendHours = data.time_trends.map((item) =>
+      const trendLabels = time_trends.map((item) =>
+        moment(item.day).format("YYYY-MM-DD"),
+      );
+      const trendHours = time_trends.map((item) =>
         parseFloat(item.total_hours),
       );
 
@@ -123,8 +133,8 @@ export function useHooks() {
         ],
       };
 
-      setTotalTime(data.total_time);
-      setTotalCheckIns(data.total_checkins);
+      setTotalTime(total_time);
+      setTotalCheckIns(total_checkins);
       setPieData(pieChartData);
       setChartData(chartData);
       setTrendData(trendChartData);
