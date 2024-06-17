@@ -74,7 +74,7 @@ export function useHooks() {
     await axiosInstance.delete(`checkins/${id}/`, {
       headers: { Authorization: `Token ${getToken()}` },
     });
-    setCheckins(checkins.filter((checkins) => checkins.id !== id));
+    await refetchCheckins();
   };
 
   const parseCheckInInput = (input: string): CheckIn | null => {
