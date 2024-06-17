@@ -1,26 +1,44 @@
 "use client";
 
-import { TextField, Button, Typography, Box } from "@mui/material";
-
+import { Avatar, Typography, Box, TextField, Button } from "@mui/material";
+import { LockOutlined } from "@mui/icons-material";
 import useHooks from "./hooks";
 
 export default function RegisterForm() {
   const { register, handleSubmit, onSubmit } = useHooks();
   return (
-    <>
-      <Typography variant="h4">Register</Typography>
+    <Box
+      sx={{
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <LockOutlined />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign up
+      </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           label="Username"
           {...register("username")}
           fullWidth
           margin="normal"
+          required
+          autoComplete="username"
+          autoFocus
         />
         <TextField
           label="Email"
           {...register("email")}
           fullWidth
           margin="normal"
+          required
+          autoComplete="username"
+          autoFocus
         />
         <TextField
           label="Password"
@@ -28,6 +46,9 @@ export default function RegisterForm() {
           {...register("password1")}
           fullWidth
           margin="normal"
+          required
+          autoComplete="username"
+          autoFocus
         />
         <TextField
           label="Confirm Password"
@@ -35,11 +56,19 @@ export default function RegisterForm() {
           {...register("password2")}
           fullWidth
           margin="normal"
+          required
+          autoComplete="username"
+          autoFocus
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{ mt: 3, mb: 2 }}
+        >
           Register
         </Button>
       </Box>
-    </>
+    </Box>
   );
 }

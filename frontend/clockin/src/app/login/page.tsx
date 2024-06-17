@@ -8,10 +8,10 @@ export default function LoginPage() {
     <Container maxWidth="lg">
       <LoginForm />
       <Typography align="center" mt={2}>
-        Don{"'"}t have an account?{" "}
+        {"Don't have an account? "}
         <Link href="/register" passHref>
           <Button variant="text" color="primary">
-            Register
+            Sign Up
           </Button>
         </Link>
       </Typography>

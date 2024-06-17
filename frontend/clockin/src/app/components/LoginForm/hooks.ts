@@ -18,7 +18,7 @@ export default function useHooks() {
       await login(data.username, data.email, data.password);
       router.push("/");
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.response.data);
     }
   };
 
