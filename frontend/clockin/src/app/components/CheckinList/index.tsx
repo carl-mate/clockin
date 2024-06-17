@@ -63,6 +63,7 @@ export default function CheckinList() {
           helperText={error}
           placeholder="5.5 hrs #project-x fix login issue"
           margin="normal"
+          autoFocus
         />
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Check-in

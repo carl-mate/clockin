@@ -3,7 +3,7 @@ import { Container } from "@mui/material";
 
 export default function CheckinsPage() {
   return (
-    <Container>
+    <Container maxWidth="lg">
       <CheckinList />
     </Container>
   );

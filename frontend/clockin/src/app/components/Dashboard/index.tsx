@@ -22,6 +22,7 @@ import {
   History,
   FormatListNumbered,
 } from "@mui/icons-material";
+import Link from "next/link";
 
 Chart.register(...registerables);
 
@@ -36,7 +37,7 @@ export default function Dashboard() {
           Dashboard
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          Get a glance of your personal time
+          See where you spend most of your personal time.
         </Typography>
       </Box>
       <Grid container spacing={6}>
@@ -173,6 +174,17 @@ export default function Dashboard() {
               </Box>
             </CardContent>
           </Card>
+        </Grid>
+        {/* Disclaimer Note */}
+        <Grid item xs={12}>
+          <Box mt={4} textAlign="center">
+            <Typography variant="body2" color="textSecondary">
+              * Data for "Time Allocation" and "Top Time Investments" are based
+              on the top 5 activities with most hours spent. Check-in{" "}
+              <Link href="/checkins">here</Link> to keep track of where you
+              spend your time.
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
     </Container>

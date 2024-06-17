@@ -1,7 +1,12 @@
 "use client";
 
-import { AccountCircle, Menu as MenuIcon } from "@mui/icons-material";
 import {
+  AccountCircle,
+  Menu as MenuIcon,
+  AccessTime,
+} from "@mui/icons-material";
+import {
+  Box,
   IconButton,
   Menu,
   MenuItem,
@@ -9,6 +14,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
+
 import { useHooks } from "./hooks";
 
 const menuId = "primary-search-account-menu";
@@ -59,7 +66,27 @@ export default function AppBar({
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          ClockIn
+          <Link
+            href="/"
+            style={{ textDecoration: "none", color: "white" }}
+            passHref
+          >
+            <Box
+              component="a"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "inherit",
+                textDecoration: "none",
+                fontWeight: "bold", // Adding bold font weight
+                fontSize: "1.2rem", // Increasing font size
+                letterSpacing: "0.1rem", // Adding letter spacing
+              }}
+            >
+              <AccessTime sx={{ mr: 1 }} />
+              ClockIn
+            </Box>
+          </Link>
         </Typography>
         <IconButton
           edge="end"
