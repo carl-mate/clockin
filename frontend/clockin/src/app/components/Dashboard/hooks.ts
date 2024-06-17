@@ -1,6 +1,7 @@
 "use client";
 
 import moment from "moment";
+
 import { useState, useEffect } from "react";
 import axiosInstance from "@/app/utils/axios";
 import { getToken } from "@/app/utils/getToken";
@@ -63,68 +64,16 @@ export function useHooks() {
 
       console.log("data: ", data);
 
-      if (data.length === 0) {
-        setChartData({
-          labels: ["No Data"],
-          datasets: [
-            {
-              label: "No Data",
-              data: [0],
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-            },
-          ],
-        });
-
-        setPieData({
-          labels: ["No Data"],
-          datasets: [
-            {
-              data: [0],
-              backgroundColor: ["rgba(75, 192, 192, 0.2)"],
-              borderColor: ["rgba(75, 192, 192, 1)"],
-              borderWidth: 1,
-            },
-          ],
-        });
-
-        setTrendData({
-          labels: ["No Data"],
-          datasets: [
-            {
-              label: "No Data",
-              data: [0],
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-            },
-          ],
-        });
-
-        setTotalTime(0);
-        setTotalCheckIns(0);
-        return;
-      }
-
       const groupedByTag = data.reduce((acc, curr) => {
         acc[curr.tag] = (acc[curr.tag] || 0) + parseFloat(curr.hours);
         return acc;
       }, {});
 
-      // Convert the grouped data to an array, sort it, and take the top 5
-      const sortedGroupedByTag = Object.entries(groupedByTag)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
-
-      const topTags = sortedGroupedByTag.map((item) => item[0]);
-      const topHours = sortedGroupedByTag.map((item) => item[1]);
-
       const pieChartData = {
-        labels: topTags,
+        labels: Object.keys(groupedByTag),
         datasets: [
           {
-            data: topHours,
+            data: Object.values(groupedByTag),
             backgroundColor: [
               "rgba(75, 192, 192, 0.2)",
               "rgba(255, 99, 132, 0.2)",
@@ -173,11 +122,11 @@ export function useHooks() {
       const totalCheckInsCount = data.length;
 
       setChartData({
-        labels: topTags,
+        labels: Object.keys(groupedByTag),
         datasets: [
           {
             label: "Hours",
-            data: topHours,
+            data: Object.values(groupedByTag),
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
