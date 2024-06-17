@@ -17,38 +17,34 @@ export function useHooks() {
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [totalCheckins, setTotalCheckins] = useState(0);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 5,
+    page: 0,
+  });
+  const [isLoading, setLoading] = useState(true);
 
   const refetchCheckins = async () => {
-    const response = await axiosInstance.get("checkins/", {
-      headers: { Authorization: `Token ${getToken()}` },
-    });
-    setCheckins(response.data.results);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        `checkins/?page=${paginationModel.page + 1}&page_size=${paginationModel.pageSize}`,
+        { headers: { Authorization: `Token ${getToken()}` } },
+      );
+      console.log('page and pageSize: ', paginationModel.page, paginationModel.pageSize)
+      setCheckins(response.data.results);
+      setTotalCheckins(response.data.count);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `checkins/?page=${page}&page_size=${pageSize}`,
-          { headers: { Authorization: `Token ${getToken()}` } },
-        );
-        setCheckins(response.data.results);
-        setTotalCheckins(response.data.count);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, [page, pageSize]);
-
-  useEffect(() => {
-    const fetchCheckins = async () => {
       await refetchCheckins();
     };
-    fetchCheckins();
-  }, []);
+    fetchData();
+  }, [paginationModel]);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -82,10 +78,8 @@ export function useHooks() {
       setInput("");
       setError(null);
       await refetchCheckins();
-      // alert("Check-in submitted successfully");
     } catch (error) {
       console.error("Error submitting check-in:", error.response.data);
-      alert("Failed to submit check-in");
     }
   };
 
@@ -118,9 +112,8 @@ export function useHooks() {
     checkins,
     handleDelete,
     totalCheckins,
-    page,
-    pageSize,
-    setPage,
-    setPageSize,
+    paginationModel,
+    setPaginationModel,
+    isLoading,
   };
 }
