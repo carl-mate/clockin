@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginForm";
 
 export default function LoginPage() {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="md">
       <LoginForm />
       <Typography align="center" mt={2}>
         {"Don't have an account? "}

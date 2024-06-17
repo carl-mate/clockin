@@ -1,11 +1,19 @@
 "use client";
 
-import { Avatar, Typography, Box, TextField, Button } from "@mui/material";
+import {
+  Avatar,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Alert,
+} from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import useHooks from "./hooks";
 
 export default function RegisterForm() {
-  const { register, handleSubmit, onSubmit } = useHooks();
+  const { register, handleSubmit, onSubmit, error, handleFormSubmit } =
+    useHooks();
   return (
     <Box
       sx={{
@@ -21,7 +29,7 @@ export default function RegisterForm() {
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)}>
         <TextField
           label="Username"
           {...register("username")}
@@ -60,6 +68,11 @@ export default function RegisterForm() {
           autoComplete="username"
           autoFocus
         />
+        {error && (
+          <Alert severity="error" sx={{ width: "100%", mt: 2 }}>
+            {error}
+          </Alert>
+        )}
         <Button
           type="submit"
           variant="contained"
