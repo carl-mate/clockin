@@ -5,7 +5,7 @@ import RegisterForm from "../components/RegisterForm";
 
 export default function RegisterPage() {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="md">
       <RegisterForm />
       <Typography align="center" mt={2}>
         Already have an account?{" "}
