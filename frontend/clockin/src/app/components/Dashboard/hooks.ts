@@ -56,24 +56,23 @@ export function useHooks() {
   const [totalCheckIns, setTotalCheckIns] = useState(0);
 
   useEffect(() => {
-    const fetchCheckins = async () => {
-      const response = await axiosInstance.get("checkins/", {
+    const fetchData = async () => {
+      const response = await axiosInstance.get("checkins/dashboard_data/", {
         headers: { Authorization: `Token ${getToken()}` },
       });
-      const data: CheckIn[] = response.data;
+      const data = response.data;
 
-      console.log("data: ", data);
-
-      const groupedByTag = data.reduce((acc, curr) => {
-        acc[curr.tag] = (acc[curr.tag] || 0) + parseFloat(curr.hours);
-        return acc;
-      }, {});
+      // Process data for charts
+      const topTags = data.top_time_investments.map((item) => item.tag);
+      const topHours = data.top_time_investments.map((item) =>
+        parseFloat(item.total_hours),
+      );
 
       const pieChartData = {
-        labels: Object.keys(groupedByTag),
+        labels: topTags,
         datasets: [
           {
-            data: Object.values(groupedByTag),
+            data: topHours,
             backgroundColor: [
               "rgba(75, 192, 192, 0.2)",
               "rgba(255, 99, 132, 0.2)",
@@ -93,20 +92,12 @@ export function useHooks() {
         ],
       };
 
-      const trendChartData = {
-        labels: [
-          ...new Set(
-            data.map((entry) => moment(entry.created_at).format("YYYY-MM-DD")),
-          ),
-        ],
+      const chartData = {
+        labels: topTags,
         datasets: [
           {
             label: "Hours",
-            data: data.reduce((acc, curr) => {
-              const date = moment(curr.created_at).format("YYYY-MM-DD");
-              acc[date] = (acc[date] || 0) + parseFloat(curr.hours);
-              return acc;
-            }, {}),
+            data: topHours,
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
@@ -114,32 +105,32 @@ export function useHooks() {
         ],
       };
 
-      const totalTimeSpent = Object.values(groupedByTag).reduce(
-        (sum, value) => sum + value,
-        0,
+      const trendLabels = data.time_trends.map((item) => item.day);
+      const trendHours = data.time_trends.map((item) =>
+        parseFloat(item.total_hours),
       );
 
-      const totalCheckInsCount = data.length;
-
-      setChartData({
-        labels: Object.keys(groupedByTag),
+      const trendChartData = {
+        labels: trendLabels,
         datasets: [
           {
             label: "Hours",
-            data: Object.values(groupedByTag),
+            data: trendHours,
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
           },
         ],
-      });
+      };
 
+      setTotalTime(data.total_time);
+      setTotalCheckIns(data.total_checkins);
       setPieData(pieChartData);
+      setChartData(chartData);
       setTrendData(trendChartData);
-      setTotalTime(totalTimeSpent);
-      setTotalCheckIns(totalCheckInsCount);
     };
-    fetchCheckins();
+
+    fetchData();
   }, []);
 
   return { chartData, pieData, trendData, totalTime, totalCheckIns };
