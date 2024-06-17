@@ -12,9 +12,7 @@ type CheckIn = {
 };
 
 export function useHooks() {
-  const [checkins, setCheckins] = useState<any[]>([
-    { id: 1, hours: 5, tag: "testing", activity: "more activity" },
-  ]);
+  const [checkins, setCheckins] = useState<any[]>();
   const [user, setUser] = useState<User | null>(null);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
