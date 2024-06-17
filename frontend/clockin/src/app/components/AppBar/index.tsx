@@ -13,7 +13,6 @@ import { useHooks } from "./hooks";
 
 const menuId = "primary-search-account-menu";
 const drawerWidth = 240;
-const isAdmin = true;
 
 export default function AppBar({
   open,
@@ -28,7 +27,6 @@ export default function AppBar({
     handleProfileMenuOpen,
     handleMenuClose,
     handleLogout,
-    handleSwitchRole,
   } = useHooks();
 
   return (
@@ -89,9 +87,6 @@ export default function AppBar({
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleLogout}>LogOut</MenuItem>
-        {isAdmin && (
-          <MenuItem onClick={handleSwitchRole}>Switch role as admin</MenuItem>
-        )}
       </Menu>
     </MuiAppBar>
   );

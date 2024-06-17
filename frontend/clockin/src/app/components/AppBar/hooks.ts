@@ -29,17 +29,11 @@ export function useHooks() {
     }
   };
 
-  const handleSwitchRole = () => {
-    // TODO: impelement switch logic
-    handleMenuClose();
-  };
-
   return {
     theme,
     anchorEl,
     handleProfileMenuOpen,
     handleMenuClose,
     handleLogout,
-    handleSwitchRole,
   };
 }
