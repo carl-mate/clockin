@@ -22,7 +22,6 @@ import {
   History,
   FormatListNumbered,
 } from "@mui/icons-material";
-import Link from "next/link";
 
 Chart.register(...registerables);
 
@@ -37,11 +36,7 @@ export default function Dashboard() {
           Dashboard
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          See your top five activities and how you spend your time. Click{" "}
-          <Link href="/checkins" passHref>
-            here
-          </Link>{" "}
-          for a more detailed look.
+          Get a glance of your personal time
         </Typography>
       </Box>
       <Grid container spacing={6}>
