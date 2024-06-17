@@ -30,7 +30,11 @@ export function useHooks() {
         `checkins/?page=${paginationModel.page + 1}&page_size=${paginationModel.pageSize}`,
         { headers: { Authorization: `Token ${getToken()}` } },
       );
-      console.log('page and pageSize: ', paginationModel.page, paginationModel.pageSize)
+      console.log(
+        "page and pageSize: ",
+        paginationModel.page,
+        paginationModel.pageSize,
+      );
       setCheckins(response.data.results);
       setTotalCheckins(response.data.count);
       setLoading(false);
