@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'corsheaders',
+    'django_seed',
     'checkins',
 ]
 
@@ -158,3 +159,7 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = False
+
+# Workaround for django-seed deprecation error due to Django 5.0
+# Ref: https://github.com/Brobin/django-seed/issues/119#issuecomment-2141574298
+USE_TZ = False
