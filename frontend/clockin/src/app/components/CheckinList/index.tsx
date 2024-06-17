@@ -7,8 +7,18 @@ import { useHooks } from "./hooks";
 import moment from "moment";
 
 export default function CheckinList() {
-  const { input, setInput, error, handleSubmit, checkins, handleDelete } =
-    useHooks();
+  const {
+    input,
+    setInput,
+    error,
+    handleSubmit,
+    checkins,
+    handleDelete,
+    totalCheckins,
+    page,
+    pageSize,
+    setPage,
+  } = useHooks();
 
   const columns = [
     { field: "created_at", headerName: "Created At", minWidth: 250 },
@@ -59,7 +69,21 @@ export default function CheckinList() {
         </Button>
       </Box>
       <Box sx={{ height: 400, width: "100%" }}>
-        <DataGrid rows={rows} columns={columns} disableRowSelectionOnClick />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableRowSelectionOnClick
+          pagination
+          paginationMode="server"
+          rowCount={totalCheckins}
+          initialState={{
+            pagination: { paginationModel: { page: page - 1, pageSize } },
+          }}
+          onPaginationModelChange={(newModel) => {
+            setPage(newModel.page + 1);
+          }}
+          pageSizeOptions={[5, 10, 25]}
+        />
       </Box>
     </>
   );
