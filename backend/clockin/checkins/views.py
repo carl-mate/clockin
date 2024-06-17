@@ -2,16 +2,24 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from django.db.models import Sum
 from django.db.models.functions import TruncDay
 from .models import Checkin
 from .serializers import CheckinSerializer
 
 
+class CheckinPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class CheckinViewSet(viewsets.ModelViewSet):
     queryset = Checkin.objects.all()
     serializer_class = CheckinSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CheckinPagination
 
     def get_queryset(self):
         user = self.request.user

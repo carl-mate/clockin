@@ -12,17 +12,36 @@ type CheckIn = {
 };
 
 export function useHooks() {
-  const [checkins, setCheckins] = useState<any[]>([]);
+  const [checkins, setCheckins] = useState<any[]>();
   const [user, setUser] = useState<User | null>(null);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [totalCheckins, setTotalCheckins] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const refetchCheckins = async () => {
     const response = await axiosInstance.get("checkins/", {
       headers: { Authorization: `Token ${getToken()}` },
     });
-    setCheckins(response.data);
+    setCheckins(response.data.results);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `checkins/?page=${page}&page_size=${pageSize}`,
+          { headers: { Authorization: `Token ${getToken()}` } },
+        );
+        setCheckins(response.data.results);
+        setTotalCheckins(response.data.count);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, [page, pageSize]);
 
   useEffect(() => {
     const fetchCheckins = async () => {
@@ -63,7 +82,7 @@ export function useHooks() {
       setInput("");
       setError(null);
       await refetchCheckins();
-      alert("Check-in submitted successfully");
+      // alert("Check-in submitted successfully");
     } catch (error) {
       console.error("Error submitting check-in:", error.response.data);
       alert("Failed to submit check-in");
@@ -98,5 +117,10 @@ export function useHooks() {
     handleSubmit,
     checkins,
     handleDelete,
+    totalCheckins,
+    page,
+    pageSize,
+    setPage,
+    setPageSize,
   };
 }
