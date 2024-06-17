@@ -15,9 +15,9 @@ export default function CheckinList() {
     checkins,
     handleDelete,
     totalCheckins,
-    page,
-    pageSize,
-    setPage,
+    paginationModel,
+    setPaginationModel,
+    isLoading,
   } = useHooks();
 
   const columns = [
@@ -76,12 +76,9 @@ export default function CheckinList() {
           pagination
           paginationMode="server"
           rowCount={totalCheckins}
-          initialState={{
-            pagination: { paginationModel: { page: page - 1, pageSize } },
-          }}
-          onPaginationModelChange={(newModel) => {
-            setPage(newModel.page + 1);
-          }}
+          loading={isLoading}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[5, 10, 25]}
         />
       </Box>
